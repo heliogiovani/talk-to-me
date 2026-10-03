@@ -1,43 +1,113 @@
-Talk To Me — Flashcards Inteligentes para Aprendizado de InglêsUma aplicação web moderna desenvolvida em Python (Flask) e MySQL, baseada na arquitetura MVC (Model-View-Controller). O projeto combina cartões interativos em 3D, transcrição fonética (IPA), marcação visual de cadência e ritmo de fala, sintetizador de áudio automático e um avaliador estrito de pronúncia via inteligência artificial com reconhecimento de fala. Funcionalidades Principais: Cartões Interativos 3D (Flip Cards): Interface limpa e responsiva que gira ao toque/clique em qualquer área do cartão para alternar entre a frase em inglês e a tradução natural. Áudio Automático (Text-to-Speech): Leitura de voz masculina natural acionada automaticamente assim que o cartão é carregado ou sorteado, com controle de velocidade ($0.75\times$, $1.0\times$, $1.25\times$). Fonética Internacional (IPA): Transcrição fonética completa para apoio à correta articulação sonora de cada frase. Análise de Cadência e Ritmo: Separação visual de content words (palavras fortes/enfatizadas) e grammar words (palavras fracas/conectivos), ensinando a musicalidade do idioma falado.🎙️ Avaliador Rigoroso de Pronúncia com IA: Integração direta com a API de reconhecimento de fala do navegador e algoritmo de conferência rigorosa no backend, exigindo pelo menos $90\%$ de fidelidade palavra a palavra.🇧🇷 Traduções Idiomáticas e Naturais: Expressões traduzidas pelo sentido prático e cultural do dia a dia, evitando traduções literais mecânicas. Sistema de Repetição Espaçada (SRS): Agendamento inteligente de revisões baseado na facilidade do usuário:Muito Difícil: Repete em 15 minutos.Difícil: Repete em 1 dia.Fácil: Repete em 4 dias.🎲 Seleção Aleatória Inteligente: Distribuição randômica de frases priorizando os itens pendentes de revisão. Arquitetura do Projeto (MVC)O código foi construído seguindo rigorosamente o padrão Model-View-Controller:APP ENGLISH/
+# Talk To Me — Flashcards Inteligentes para Aprendizado de Inglês
 
+Aplicação web desenvolvida em Python (Flask) e MySQL, fundamentada no padrão de arquitetura MVC (Model-View-Controller).
 
+O sistema integra cartões interativos tridimensionais, transcrição fonética internacional (IPA), segmentação visual de cadência rítmica da fala, síntese vocal masculina automatizada e motor de validação rigorosa de pronúncia por inteligência artificial via reconhecimento de voz no navegador.
+
+---
+
+## Funcionalidades do Sistema
+
+- **Cartões Interativos 3D (Flip Cards):** Interface construída com rotação tridimensional ao clique em qualquer área do cartão para alternar entre a frase em língua inglesa e a sua tradução equivalente em português.
+- **Síntese Vocal Automatizada (Text-to-Speech):** Reprodução automática de voz masculina calibrada assim que o cartão é carregado ou alternado, com alternância de velocidade ajustável (0.75x, 1.0x, 1.25x).
+- **Transcrição Fonética Internacional (IPA):** Mapeamento fonético completo de cada sentença para suporte à correta articulação sonora dos fonemas.
+- **Análise de Cadência e Ritmo:** Diferenciação visual entre palavras de conteúdo (content words - tônicas) e palavras gramaticais (grammar words - átonas), auxiliando na compreensão da musicalidade e do ritmo do inglês falado.
+- **Validador Estrito de Pronúncia:** Captura de áudio nativa via Web Speech API e algoritmo de conferência no backend, exigindo o índice mínimo de 90% de correspondência estrita e presença de todas as palavras enunciadas.
+- **Traduções Idiomáticas Equivalentes:** Foco no significado semântico e cultural do quotidiano, substituindo traduções literais mecânicas por expressões reais do dia a dia.
+- **Algoritmo de Repetição Espaçada (SRS):** Gestão de intervalos de retenção de memória parametrizada:
+  - Muito Difícil: Retorno em 15 minutos.
+  - Difícil: Retorno em 1 dia.
+  - Fácil: Retorno em 4 dias.
+- **Distribuição Aleatória:** Sorteio randômico dos cartões cadastrados, priorizando itens com agendamento de revisão vencido.
+
+---
+
+## Arquitetura de Software (MVC)
+
+A disposição estrutural do projeto obedece à separação de responsabilidades do padrão Model-View-Controller:
+
+```text
+APP ENGLISH/
 ├── app/
 │   ├── controllers/
-│   │   └── card_controller.py      # Lógica de rotas, SRS e verificação de pronúncia
+│   │   └── card_controller.py     # Gestão de rotas da API, SRS e verificação fonética
 │   ├── models/
-│   │   └── card.py                 # Modelo SQLAlchemy mapeado para a tabela MySQL
+│   │   └── card.py                # Entidade de dados mapeada via SQLAlchemy para o MySQL
 │   ├── services/
-│   │   ├── daily_fetcher.py        # Alimentador e sincronizador diário de cards
-│   │   └── phrase_service.py       # Extração de fonética IPA, cadência e tradução
+│   │   ├── daily_fetcher.py       # Serviço de carga e gestão de frases diárias
+│   │   └── phrase_service.py      # Extração de fonética IPA, cadência e tradução
 │   ├── static/
 │   │   ├── css/
-│   │   │   └── style.css           # Estilos visuais e animação 3D do flip card
+│   │   │   └── style.css          # Folha de estilos e transformações 3D
 │   │   └── js/
-│   │       └── app.js              # Áudio automático, microfone e chamadas assíncronas
+│   │       └── app.js             # Lógica de interface, Web Speech API e requisições assíncronas
 │   ├── templates/
-│   │   └── index.html              # Interface do usuário (View)
-│   ├── __init__.py                 # Fábrica da aplicação Flask e registros
-│   └── config.py                   # Configurações de conexão e codificação de senha
-│
-├── .env.example                    # Modelo para variáveis de ambiente locais
-├── .gitignore                      # Proteção de credenciais e arquivos pesados
-├── requirements.txt                # Dependências do ecossistema Python
-└── run.py                          # Ponto de entrada para execução do servidor
+│   │   └── index.html             # Camada de apresentação (View)
+│   ├── __init__.py                # Inicialização e fábrica da aplicação Flask
+│   └── config.py                  # Parâmetros de infraestrutura e variáveis de ambiente
+├── .env.example                   # Arquivo de referência para variáveis locais
+├── .gitignore                     # Diretivas de exclusão do controle de versão
+├── popular_cards.py               # Script de carga inicial e saneamento da base de dados
+├── requirements.txt               # Declaração explícita de dependências do Python
+└── run.py                         # Ponto de entrada do servidor de desenvolvimento
+```
 
+---
 
-Tecnologias UtilizadasBackend: Python, Flask, Flask-SQLAlchemy, PyMySQL.Banco de Dados: MySQL.Processamento de Linguagem: eng-to-ipa, algoritmos de correspondência de sequência (difflib).Frontend: HTML5 semântico, CSS3 (3D Transforms), JavaScript Vanilla (Web Speech API).🛠️ Como Executar Localmente1. Pré-requisitosPython instalado (versão 3.10 ou superior recomendada).MySQL Server ativo e rodando.Navegador Google Chrome ou Microsoft Edge (para suporte completo à Web Speech API).2. Clonar o repositóriogit clone https://github.com/heliogiovani/talk-to-me.git
+## Tecnologias e Bibliotecas
+
+- **Linguagem:** Python 3.10+
+- **Framework Web:** Flask
+- **Camada de Persistência:** SQLAlchemy e PyMySQL sobre base de dados MySQL
+- **Processamento de Linguagem Natural:** eng-to-ipa e requests
+- **Interface e Navegador:** HTML5, CSS3 (CSS 3D Transforms) e JavaScript ECMAScript 6+ (Web Speech API)
+
+---
+
+## Instalação e Execução
+
+### 1. Clonar o repositório
+```bash
+git clone [https://github.com/heliogiovani/talk-to-me.git](https://github.com/heliogiovani/talk-to-me.git)
 cd talk-to-me
-3. Criar e ativar o ambiente virtual# Windows (PowerShell)
+```
+
+### 2. Configurar o ambiente virtual
+```bash
 python -m venv venv
 .\venv\Scripts\Activate.ps1
-4. Instalar as dependênciaspip install -r requirements.txt
-5. Configurar o banco de dadosCrie o banco de dados no MySQL:CREATE DATABASE english_cards_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-Crie o arquivo .env na raiz do projeto com suas credenciais:MYSQL_USER=seu_usuario
-MYSQL_PASSWORD=sua_senha
-MYSQL_HOST=localhost
-MYSQL_PORT=3306
-MYSQL_DB=english_cards_db
+```
+
+### 3. Instalar pacotes necessários
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Definir variáveis de ambiente
+Crie um arquivo `.env` na raiz do diretório com base em `.env.example`:
+```ini
+DB_USER=root
+DB_PASSWORD=sua_senha_mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_NAME=english_cards_db
 SECRET_KEY=sua_chave_secreta
-6. Executar o servidorpython run.py
-Acesse no navegador: http://127.0.0.1:5000
-Licença: Este projeto é desenvolvido para fins educacionais e práticos no aprendizado de idiomas. Não pode ser copiado (no todo ou em partes) sem a permissão do desenvolvedor do projeto.
+```
+
+### 5. Executar carga inicial no banco
+```bash
+python popular_cards.py
+```
+
+### 6. Inicializar o servidor
+```bash
+python run.py
+```
+
+Acesso via navegador no endereço: `http://127.0.0.1:5000`
+
+---
+
+## Licença
+
+Projeto distribuído sob a Licença MIT. Para detalhes, consulte o arquivo LICENSE.
