@@ -1,0 +1,408 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: #f1f5f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+/* Cenário 3D para virar o cartão */
+.card-scene {
+  width: 100%;
+  max-width: 480px;
+  perspective: 1200px;
+}
+
+.card-object {
+  width: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.card-object.is-flipped {
+  transform: rotateY(180deg);
+}
+
+/* Estrutura das faces do cartão */
+.card-face {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  cursor: pointer; /* Indica que o cartão inteiro pode ser clicado */
+}
+
+.card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotateY(180deg);
+}
+
+/* Barra superior com controlos de áudio */
+.top-bar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.audio-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-audio-speed {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-voice {
+  border-radius: 16px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.voice-female {
+  background: #fdf2f8;
+  color: #db2777;
+  border: 1px solid #fbcfe8;
+}
+
+.voice-male {
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+}
+
+/* Imagem de contexto */
+.card-banner {
+  width: 100%;
+  height: 200px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #e2e8f0;
+}
+
+.card-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Frase principal e fonética */
+.phrase-section {
+  text-align: center;
+  margin-top: 4px;
+}
+
+.english-phrase {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.3;
+}
+
+.phonetic-ipa {
+  font-size: 15px;
+  color: #4f46e5;
+  font-family: "Courier New", Courier, monospace;
+  margin-top: 6px;
+}
+
+/* Tokens de Cadência */
+.cadence-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid #e2e8f0;
+}
+
+.cadence-token {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.token-bubble {
+  padding: 6px 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.token-bubble.weak {
+  background: #ffffff;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+.token-bubble.strong {
+  background: #e11d48;
+  color: #ffffff;
+  box-shadow: 0 3px 8px rgba(225, 29, 72, 0.3);
+}
+
+.token-mark {
+  width: 4px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.token-mark.weak {
+  background: #cbd5e1;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+}
+
+.token-mark.strong {
+  background: #e11d48;
+  height: 10px;
+}
+
+/* Caixa de Prática e Microfone */
+.pronounce-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pronounce-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pronounce-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #334155;
+}
+
+.score-badge {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.btn-mic {
+  width: 42px;
+  height: 42px;
+  background: #6366f1;
+  border: none;
+  border-radius: 14px;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  transition: transform 0.1s, background 0.2s;
+}
+
+.btn-mic.listening {
+  background: #ef4444;
+  animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+.pronounce-instruction {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.speech-result-input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  font-size: 13px;
+  outline: none;
+}
+
+.feedback-panel {
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+.feedback-panel.feedback-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.feedback-status {
+  font-size: 13px;
+  color: #15803d;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.feedback-panel.feedback-error .feedback-status {
+  color: #b91c1c;
+}
+
+.feedback-sub {
+  font-size: 12px;
+  color: #475569;
+  margin-top: 4px;
+}
+
+/* Verso */
+.back-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+.portuguese-translation {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.3;
+}
+
+.original-quote {
+  font-size: 14px;
+  color: #4f46e5;
+  font-weight: 600;
+}
+
+.usage-note-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: #334155;
+  text-align: left;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-top: 8px;
+}
+
+/* Botões de Repetição Espaçada (SRS) */
+.srs-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.srs-question {
+  text-align: center;
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.srs-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.btn-srs {
+  border: none;
+  border-radius: 16px;
+  padding: 12px 6px;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: transform 0.1s ease;
+}
+
+.btn-srs:active {
+  transform: scale(0.97);
+}
+
+.btn-srs strong {
+  font-size: 13px;
+}
+
+.btn-srs span {
+  font-size: 10px;
+  opacity: 0.9;
+}
+
+.btn-hardest {
+  background: #f43f5e;
+}
+
+.btn-hard {
+  background: #f59e0b;
+}
+
+.btn-easy {
+  background: #10b981;
+}
+
+/* Indicador de virar */
+.flip-hint {
+  text-align: center;
+  font-size: 12px;
+  color: #6366f1;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px;
+  user-select: none;
+}

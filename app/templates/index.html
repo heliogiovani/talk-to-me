@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flashcards de Inglês Inteligentes</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <div class="card-scene">
+    <div class="card-object" id="flashcard">
+      
+      <!-- FRENTE DO CARD -->
+      <div class="card-face card-front">
+        
+        <!-- Barra Superior (Velocidade e Replay Manual Opcional) -->
+        <div class="top-bar">
+          <div class="audio-controls no-flip">
+            <button type="button" class="btn-audio-speed no-flip" id="btnSpeed" onclick="togglePlaybackSpeed()" title="Velocidade de reprodução">1x</button>
+            <button type="button" class="btn-audio-speed no-flip" onclick="speakCurrentPhrase()" title="Ouvir novamente">🔊 Ouvir</button>
+          </div>
+        </div>
+
+        <!-- Frase Principal e Fonética -->
+        <div class="phrase-section">
+          <h2 class="english-phrase" id="frontPhrase">Carregando frase...</h2>
+          <p class="phonetic-ipa" id="frontIpa">/ ... /</p>
+        </div>
+
+        <!-- Cadência Visual -->
+        <div class="cadence-container" id="cadenceWords"></div>
+
+        <!-- Prática de Pronúncia com Microfone -->
+        <div class="pronounce-box no-flip">
+          <div class="pronounce-header no-flip">
+            <div class="pronounce-title no-flip">
+              <span class="mic-icon">🎙️</span>
+              <span>Praticar Pronúncia</span>
+            </div>
+            <div class="score-badge" id="scoreBadge" style="display: none;">0%</div>
+            <button type="button" class="btn-mic no-flip" id="btnMic" onclick="toggleMicrophone()" title="Falar pelo microfone">
+              🎙️
+            </button>
+          </div>
+          <p class="pronounce-instruction no-flip">Clique no microfone para falar em inglês:</p>
+
+          <input type="text" class="speech-result-input no-flip" id="recognizedInput" placeholder="A sua fala reconhecida aparecerá aqui..." readonly>
+
+          <div class="feedback-panel" id="feedbackSuccess" style="display: none;">
+            <div class="feedback-status">
+              <span class="check-icon">✔</span> <strong>Pronúncia Aprovada!</strong>
+            </div>
+            <p class="feedback-sub" id="feedbackScoreText">Excelente articulação.</p>
+          </div>
+
+          <div class="feedback-panel feedback-error" id="feedbackFail" style="display: none;">
+            <div class="feedback-status">
+              <span class="cross-icon">✖</span> <strong>Pronúncia Incorreta ou Incompleta.</strong>
+            </div>
+            <p class="feedback-sub" id="feedbackFailText">Fale a frase completa articulando cada palavra.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- VERSO DO CARD -->
+      <div class="card-face card-back">
+        
+        <!-- Barra Superior Verso -->
+        <div class="top-bar">
+          <div class="audio-controls no-flip">
+            <button type="button" class="btn-audio-speed no-flip" onclick="togglePlaybackSpeed()">1x</button>
+            <button type="button" class="btn-audio-speed no-flip" onclick="speakCurrentPhrase()">🔊 Ouvir</button>
+          </div>
+        </div>
+
+        <!-- Tradução e Informações -->
+        <div class="back-details">
+          <span class="section-label">TRADUÇÃO NATURAL (PORTUGUÊS)</span>
+          <h2 class="portuguese-translation" id="backTranslation">Carregando tradução...</h2>
+
+          <span class="section-label">ORIGINAL EM INGLÊS</span>
+          <p class="original-quote" id="backOriginal">"..."</p>
+
+          <div class="usage-note-box" id="usageBox">
+            <span class="info-icon">ℹ️</span>
+            <div>
+              <strong>Como usar:</strong> <span id="backContext">Carregando contexto...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Avaliação de Repetição Espaçada (SRS) -->
+        <div class="srs-section no-flip">
+          <p class="srs-question">Como foi lembrar e pronunciar esta frase?</p>
+          <div class="srs-actions no-flip">
+            <button type="button" class="btn-srs btn-hardest no-flip" onclick="submitReview('muito_dificil')">
+              <strong>Muito Difícil</strong>
+              <span>Repete em 15 min</span>
+            </button>
+            <button type="button" class="btn-srs btn-hard no-flip" onclick="submitReview('dificil')">
+              <strong>Difícil</strong>
+              <span>Repete em 1 dia</span>
+            </button>
+            <button type="button" class="btn-srs btn-easy no-flip" onclick="submitReview('facil')">
+              <strong>Fácil</strong>
+              <span>Repete em 4 dias</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
